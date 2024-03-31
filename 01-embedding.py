@@ -3,7 +3,7 @@ import os
 from functools import wraps
 from time import process_time
 from langchain_community.llms import Ollama
-from langchain_community.document_loaders import TextLoader
+from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import CharacterTextSplitter
 from langchain_community.embeddings import OllamaEmbeddings
@@ -51,7 +51,8 @@ def load_from_url(url):
 
 @measure
 def load_from_glob(path):
-    loader = TextLoader(path)
+    #loader = TextLoader(path)
+    loader = DirectoryLoader(path)
     data   = loader.load()
     text_splitter = CharacterTextSplitter(chunk_size = 1000, chunk_overlap = 0)
     docs = text_splitter.split_documents(data)
@@ -80,26 +81,32 @@ def search_similarities(db, query):
     return docs_with_score
 
 @measure
-def question_and_answer(ollama, vectorstore, question):
-    qachain = RetrievalQA.from_chain_type(ollama, retriever = vectorstore.as_retriever())
-    result = qachain.invoke({"query": question})
-    print(result)
-    return result
-    
+def search_similarities_max_marginal_relevance(db, query):
+     docs_with_score = db.max_marginal_relevance_search_with_score(query)
+     for doc, score in docs_with_score:
+        print("-" * 80)
+        print("Score: ", score)
+        print(doc.page_content)
+        print("-" * 80)
+     return docs_with_score
+ 
 @measure
 def main():
-    print("Procesando LLM")
+    print("""
+      Copyright(c) 2024. IA LLM\n\n
+      Generando Base de Conocimientos personalizada.\n
+    """)
+
     ollama = Ollama(base_url = OLLAMA_SERVICE_URL, model = MODEL_ID)
     ollama_emb = OllamaEmbeddings(base_url = OLLAMA_SERVICE_URL, model = MODEL_ID) # "llama:7b",
 
     #data, docs = load_from_url(url = "https://www.gutenberg.org/files/1727/1727-h/1727-h.htm")
-    data, docs = load_from_glob(f"{DOCS_PATH}/sigo.txt")
+    data, docs = load_from_glob(f"{DOCS_PATH}")
     vector_store = generate_embeddings(ollama_emb, docs)
 
     #search_similarities(db, "What did the president say about Ketanji Brown Jackson")
-    question = "Para que sirve SIGO?"
-    search_similarities(vector_store, question)
-    question_and_answer(ollama, vector_store, question)
+    #question = "Para que sirve SIGO?"
+    #search_similarities(vector_store, question)
 
 if __name__ == "__main__":
     main()
