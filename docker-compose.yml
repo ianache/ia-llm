@@ -1,0 +1,20 @@
+version: "3.5"
+
+volumes:
+  pg-data:
+
+services:
+  postgres:
+    image: pgvector/pgvector:0.6.0-pg16
+    # image: ankane/pgvector 
+    # image: postgres:16
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: postgres
+      POSTGRES_DB: vectordb
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+    - "./init.sql:/docker-entrypoint-initdb.d/init.sql"
+    - "pg-data:/var/lib/postgresql/data"

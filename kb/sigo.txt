@@ -1,0 +1,9 @@
+SIGO es una plataforma para la gestión operativa de COMSATEL
+Es una plataforma desarrollada en Java con microservicios implementados con SprintBoot
+Las funcionalidades principales incluyen la gestion de solicitudes y citas generadas a partir de las solicitudes
+Las solicitudes pueden ser de instalacion, mantenimiento o retiros
+Las citas se programan a partir de las solicitudes de servicio
+Las citas pueden ser internas o externas
+Las citas internas son realizadas en los talleres de Comsatel
+Las citas externas son realizadas en el domicilio del cliente o en la ubicación coordinada con el cliente
+Cuando las citas son aprobadas se genera un contrato de servicio a traves de una integración via API Rest con el ERP SAP
