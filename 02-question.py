@@ -48,7 +48,12 @@ def question_and_answer(qachain, question):
     
 @measure
 def main():
-    print("Copyright(c) 2024. IA LLM\n\nIngrese su consulta sobre KB (SIGO)\nIngrese 'salir' para finalizar la conversacion.\n")
+    print("""
+    Copyright(c) 2024. IA LLM
+    Ingrese su consulta sobre KB (SIGO).
+    Ingrese 'salir' para finalizar la conversacion.
+
+    """)
     ollama = Ollama(base_url = OLLAMA_SERVICE_URL, model = MODEL_ID)
     ollama_emb = OllamaEmbeddings(base_url = OLLAMA_SERVICE_URL, model = MODEL_ID)
     #

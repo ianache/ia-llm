@@ -93,8 +93,9 @@ def search_similarities_max_marginal_relevance(db, query):
 @measure
 def main():
     print("""
-      Copyright(c) 2024. IA LLM\n\n
-      Generando Base de Conocimientos personalizada.\n
+      Copyright(c) 2024. IA LLM
+      Generando Base de Conocimientos personalizada.
+      Procesando base en ruta './kb'
     """)
 
     ollama = Ollama(base_url = OLLAMA_SERVICE_URL, model = MODEL_ID)
