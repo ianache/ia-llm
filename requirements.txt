@@ -5,4 +5,4 @@ tiktoken==0.6.0
 #dotenv==0.0.5
 bs4==0.0.2
 unstructured==0.11.8
-unstructured[md]==0.11.8
+unstructured[md]
